@@ -5,7 +5,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "dist"),
-    filename: "[name].js",
+    filename: "index.js",
   },
   resolve: {
     extensions: [".ts", ".js"],
