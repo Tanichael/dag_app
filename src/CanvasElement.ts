@@ -2,7 +2,7 @@ export function calcPosition(id: number): number[] {
   if (id === 0) {
     return [100, 50];
   } else if (id === 1) {
-    return [300, 100];
+    return [400, 200];
   }
   return [100, 50];
 }
