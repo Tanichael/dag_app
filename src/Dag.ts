@@ -73,6 +73,10 @@ export class Edge {
     this._weight = weight;
   }
 
+  getFrom() {
+    return this._from;
+  }
+
   getTo() {
     return this._to;
   }

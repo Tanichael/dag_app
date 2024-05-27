@@ -1,10 +1,13 @@
 export function calcPosition(id: number): number[] {
-  if (id === 0) {
-    return [100, 50];
-  } else if (id === 1) {
-    return [400, 200];
-  }
-  return [100, 50];
+  // if (id === 0) {
+  //   return [100, 50];
+  // } else if (id === 1) {
+  //   return [300, 200];
+  // } else if (id === 2) {
+  //   return [600, 150];
+  // }
+
+  return [200 * id + 100, 50 + Math.random() * 100];
 }
 
 export class CanvasNode {

@@ -38,8 +38,6 @@ export class LineRenderer {
       edgeRad = 2 * Math.PI - edgeRadCos;
     }
 
-    console.log("edgeRad: " + String((edgeRad / Math.PI) * 180));
-
     const arrowLength = 15;
     const arrowRad = (40 * Math.PI) / 180.0;
     const befArrowRad = edgeRad + (Math.PI - arrowRad);
