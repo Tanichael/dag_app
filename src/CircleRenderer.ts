@@ -28,7 +28,7 @@ export class CircleRenderer {
 
     /* 円の描画 */
     this._ctxCircle.beginPath(); // パスの初期化
-    this._ctxCircle.arc(x, y, 40, 0, 2 * Math.PI); // (100, 50)の位置に半径30pxの円
+    this._ctxCircle.arc(x, y, CanvasNode.getRadius(), 0, 2 * Math.PI); // (100, 50)の位置に半径30pxの円
     this._ctxCircle.closePath(); // パスを閉じる
     this._ctxCircle.fill();
     this._ctxCircle.stroke();

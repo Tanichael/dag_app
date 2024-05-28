@@ -54,6 +54,12 @@ export class Dag {
       topo.push(nextNode);
       remains.splice(nextNodeIdx, 1);
     }
+
+    let tempStr = "";
+    topo.forEach((id) => {
+      tempStr = tempStr + String(id) + " ";
+    });
+    console.log(tempStr);
     return topo;
   }
 }

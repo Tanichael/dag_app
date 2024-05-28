@@ -39,7 +39,7 @@ export class LineRenderer {
     }
 
     const arrowLength = 15;
-    const arrowRad = (40 * Math.PI) / 180.0;
+    const arrowRad = (30 * Math.PI) / 180.0;
     const befArrowRad = edgeRad + (Math.PI - arrowRad);
     const aftArrowRad = edgeRad + (Math.PI + arrowRad);
     const befArrowTo = [

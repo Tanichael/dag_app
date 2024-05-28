@@ -1,24 +1,29 @@
-export function calcPosition(id: number): number[] {
-  // if (id === 0) {
-  //   return [100, 50];
-  // } else if (id === 1) {
-  //   return [300, 200];
-  // } else if (id === 2) {
-  //   return [600, 150];
-  // }
+import { IObserver } from "./IObserver";
+import { IObservable } from "./IObservable";
+import { Subject } from "./Subject";
 
-  return [200 * id + 100, 50 + Math.random() * 100];
+export function calcPosition(id: number): number[] {
+  return [200 * id + 100, 50 + Math.random() * 800];
 }
 
 export class CanvasNode {
-  _val: number;
-  _x: number;
-  _y: number;
+  private static s_radius = 40;
+
+  private _val: number;
+  private _x: number;
+  private _y: number;
+
+  OnChangePosition: Subject<CanvasNode>;
 
   constructor(val: number, pos: number[]) {
     this._val = val;
     this._x = pos[0];
     this._y = pos[1];
+    this.OnChangePosition = new Subject<CanvasNode>();
+  }
+
+  static getRadius() {
+    return this.s_radius;
   }
 
   getVal() {
@@ -27,6 +32,12 @@ export class CanvasNode {
 
   getPosition() {
     return [this._x, this._y];
+  }
+
+  setPosition(pos: number[]) {
+    this._x = pos[0];
+    this._y = pos[1];
+    this.OnChangePosition.onNext(this);
   }
 }
 
