@@ -12,13 +12,17 @@ export class CanvasNode {
   private _val: number;
   private _x: number;
   private _y: number;
+  private _isSelected: boolean;
 
+  OnSelected: Subject<CanvasNode>;
   OnChangePosition: Subject<CanvasNode>;
 
   constructor(val: number, pos: number[]) {
     this._val = val;
     this._x = pos[0];
     this._y = pos[1];
+    this._isSelected = false;
+    this.OnSelected = new Subject<CanvasNode>();
     this.OnChangePosition = new Subject<CanvasNode>();
   }
 
@@ -34,10 +38,19 @@ export class CanvasNode {
     return [this._x, this._y];
   }
 
+  getIsSelected() {
+    return this._isSelected;
+  }
+
   setPosition(pos: number[]) {
     this._x = pos[0];
     this._y = pos[1];
     this.OnChangePosition.onNext(this);
+  }
+
+  setSelected(isSelected: boolean) {
+    this._isSelected = isSelected;
+    this.OnSelected.onNext(this);
   }
 }
 

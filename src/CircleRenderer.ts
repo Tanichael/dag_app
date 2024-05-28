@@ -22,7 +22,8 @@ export class CircleRenderer {
     const x = node.getPosition()[0];
     const y = node.getPosition()[1];
 
-    this._ctxCircle.fillStyle = "white";
+    const color = node.getIsSelected() ? "skyblue" : "white";
+    this._ctxCircle.fillStyle = color;
     this._ctxCircle.strokeStyle = "red"; // 塗りつぶしは暗めの色
     this._ctxCircle.lineWidth = 1; // 線の幅は5px
 

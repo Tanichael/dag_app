@@ -1,23 +1,58 @@
 import { Dag } from "./Dag";
-export function calcLongestPath(dag: Dag): number {
-  const topo: number[] = dag.getTopo();
-  let dist: number[] = [];
-  for (let i = 0; i < topo.length; i++) {
-    dist.push(0);
-  }
-  topo.forEach((id) => {
-    if (dist[id] == 0) {
-      dfs(id, dag, dist);
+
+export class LongestPathCalculator {
+  static _instance: LongestPathCalculator;
+  _dist: number[] = [];
+
+  private constructor() {}
+
+  static getInstance() {
+    if (!this._instance) {
+      this._instance = new LongestPathCalculator();
     }
-  });
-  let maxLength = 0;
+    return this._instance;
+  }
 
-  dist.forEach((temp) => {
-    maxLength = Math.max(maxLength, temp);
-  });
+  calcLongestPath(dag: Dag): number {
+    console.log("calc");
+    const topo: number[] = dag.getTopo();
+    for (let i = 0; i < topo.length; i++) {
+      this._dist.push(0);
+    }
+    topo.forEach((id) => {
+      if (this._dist[id] == 0) {
+        dfs(id, dag, this._dist);
+      }
+    });
+    let maxLength = 0;
 
-  return maxLength;
+    this._dist.forEach((temp) => {
+      maxLength = Math.max(maxLength, temp);
+    });
+
+    return maxLength;
+  }
 }
+
+// export function calcLongestPath(dag: Dag): number {
+//   const topo: number[] = dag.getTopo();
+//   let dist: number[] = [];
+//   for (let i = 0; i < topo.length; i++) {
+//     dist.push(0);
+//   }
+//   topo.forEach((id) => {
+//     if (dist[id] == 0) {
+//       dfs(id, dag, dist);
+//     }
+//   });
+//   let maxLength = 0;
+
+//   dist.forEach((temp) => {
+//     maxLength = Math.max(maxLength, temp);
+//   });
+
+//   return maxLength;
+// }
 
 function dfs(id: number, dag: Dag, dist: number[]) {
   dag.getAdjList()[id].forEach((edge) => {
