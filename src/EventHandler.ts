@@ -10,8 +10,18 @@ export class EventHandler {
   private static _draggingId: number = -1;
   private static _isDragging: boolean = false;
   private static _dragThreshold: number = 10;
+  private static _isLock: boolean = false;
+
+  static Lock() {
+    EventHandler._isLock = true;
+  }
+
+  static Unlock() {
+    EventHandler._isLock = false;
+  }
 
   static onMouseDown(e: MouseEvent) {
+    if (EventHandler._isLock === true) return;
     const mousePosX = e.clientX * 2;
     const mousePosY = e.clientY * 2;
     const canvasNodes = CanvasElementRepository.getInstance().getCanvasNodes();

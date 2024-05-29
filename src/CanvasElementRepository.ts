@@ -1,13 +1,15 @@
-import { CanvasNode } from "./CanvasElement";
+import { CanvasNode, CanvasEdge } from "./CanvasElement";
 import { Dag } from "./Dag";
 
 export class CanvasElementRepository {
   private static _instance: CanvasElementRepository;
   private _canvasNodes: CanvasNode[];
+  private _canvasEdges: CanvasEdge[];
   private _dag: Dag | null;
 
   private constructor() {
     this._canvasNodes = [];
+    this._canvasEdges = [];
     this._dag = null;
   }
 
@@ -24,6 +26,14 @@ export class CanvasElementRepository {
 
   getCanvasNodes() {
     return this._canvasNodes;
+  }
+
+  setCanvasEdges(canvasEdges: CanvasEdge[]) {
+    this._canvasEdges = canvasEdges;
+  }
+
+  getCanvasEdges() {
+    return this._canvasEdges;
   }
 
   setDag(dag: Dag) {

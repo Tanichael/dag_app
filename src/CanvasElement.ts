@@ -13,6 +13,8 @@ export class CanvasNode {
   private _x: number;
   private _y: number;
   private _isSelected: boolean;
+  private _isClear: boolean;
+  private _isWrong: boolean;
 
   OnSelected: Subject<CanvasNode>;
   OnChangePosition: Subject<CanvasNode>;
@@ -22,12 +24,30 @@ export class CanvasNode {
     this._x = pos[0];
     this._y = pos[1];
     this._isSelected = false;
+    this._isClear = false;
+    this._isWrong = false;
     this.OnSelected = new Subject<CanvasNode>();
     this.OnChangePosition = new Subject<CanvasNode>();
   }
 
   static getRadius() {
     return this.s_radius;
+  }
+
+  setIsClaer(isClear: boolean) {
+    this._isClear = isClear;
+  }
+
+  getIsClear() {
+    return this._isClear;
+  }
+
+  setIsWrong(isWrong: boolean) {
+    this._isWrong = isWrong;
+  }
+
+  getIsWrong() {
+    return this._isWrong;
   }
 
   getVal() {
@@ -48,7 +68,7 @@ export class CanvasNode {
     this.OnChangePosition.onNext(this);
   }
 
-  setSelected(isSelected: boolean) {
+  setIsSelected(isSelected: boolean) {
     this._isSelected = isSelected;
     this.OnSelected.onNext(this);
   }

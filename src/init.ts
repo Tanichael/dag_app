@@ -6,7 +6,7 @@ import { CanvasNode, CanvasEdge } from "./CanvasElement";
 import { CircleRenderer } from "./CircleRenderer";
 import { LineRenderer } from "./LineRenderer";
 import { Observer } from "./IObserver";
-import { clearCanvas } from "./clearCanvas";
+import { CanvasPainter } from "./clearCanvas";
 
 export function initCanvas(): HTMLCanvasElement[] {
   const canvasCircle: HTMLCanvasElement = document.getElementById(
@@ -38,7 +38,7 @@ export function initGame(
   lineRenderer: LineRenderer,
   canvases: HTMLCanvasElement[]
 ) {
-  clearCanvas(canvases);
+  CanvasPainter.getInstance().clearCanvas(canvases);
   const dag: Dag = new Dag(dagCnt);
   const adjList: Edge[][] = dag.getAdjList();
 
@@ -51,9 +51,6 @@ export function initGame(
     const tempNode = new CanvasNode(i, tempPos);
     canvasNodes.push(tempNode);
   }
-
-  CanvasElementRepository.getInstance().setDag(dag);
-  CanvasElementRepository.getInstance().setCanvasNodes(canvasNodes);
 
   let edges = [];
   for (let i = 0; i < dagCnt; i++) {
@@ -72,30 +69,34 @@ export function initGame(
     }
   }
 
+  CanvasElementRepository.getInstance().setDag(dag);
+  CanvasElementRepository.getInstance().setCanvasNodes(canvasNodes);
+  CanvasElementRepository.getInstance().setCanvasEdges(edges);
+
   canvasNodes.forEach((canvasNode) => {
     circleRenderer.renderCircle(canvasNode);
 
     canvasNode.OnChangePosition.subscribe(
       new Observer((canvasNode) => {
-        clearCanvas(canvases);
-        canvasNodes.forEach((tempNode) => {
-          circleRenderer.renderCircle(tempNode);
-        });
-        edges.forEach((tempEdge) => {
-          lineRenderer.renderLine(tempEdge);
-        });
+        CanvasPainter.getInstance().reloadCanvas(
+          canvases,
+          canvasNodes,
+          edges,
+          circleRenderer,
+          lineRenderer
+        );
       })
     );
 
     canvasNode.OnSelected.subscribe(
       new Observer((canvasNode) => {
-        clearCanvas(canvases);
-        canvasNodes.forEach((tempNode) => {
-          circleRenderer.renderCircle(tempNode);
-        });
-        edges.forEach((tempEdge) => {
-          lineRenderer.renderLine(tempEdge);
-        });
+        CanvasPainter.getInstance().reloadCanvas(
+          canvases,
+          canvasNodes,
+          edges,
+          circleRenderer,
+          lineRenderer
+        );
       })
     );
   });

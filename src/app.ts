@@ -4,6 +4,8 @@ import { EventHandler } from "./EventHandler";
 import { Observer } from "./IObserver";
 import { GameLogicUsecase } from "./GameLogicUsecase";
 import { initCanvas, initGame } from "./init";
+import { CanvasPainter } from "./clearCanvas";
+import { CanvasElementRepository } from "./CanvasElementRepository";
 
 const canvases = initCanvas();
 
@@ -18,7 +20,53 @@ initGame(5, circleRenderer, lineRenderer, canvases);
 const gameLogicUseCase = GameLogicUsecase.getInstance();
 gameLogicUseCase.ClearSubject.subscribe(
   new Observer((isClear) => {
-    const cnt = 5 + Math.random() * 3;
-    initGame(cnt, circleRenderer, lineRenderer, canvases);
+    EventHandler.Lock();
+    CanvasPainter.getInstance().reloadCanvas(
+      canvases,
+      CanvasElementRepository.getInstance().getCanvasNodes(),
+      CanvasElementRepository.getInstance().getCanvasEdges(),
+      circleRenderer,
+      lineRenderer
+    );
+    setTimeout(() => {
+      CanvasElementRepository.getInstance()
+        .getCanvasNodes()
+        .forEach((canvasNode) => {
+          canvasNode.setIsSelected(false);
+        });
+      const cnt = 5 + Math.floor(Math.random() * 3);
+      initGame(cnt, circleRenderer, lineRenderer, canvases);
+      EventHandler.Unlock();
+    }, 250);
+  })
+);
+
+gameLogicUseCase.WrongSubject.subscribe(
+  new Observer((isWrong) => {
+    EventHandler.Lock();
+    CanvasPainter.getInstance().reloadCanvas(
+      canvases,
+      CanvasElementRepository.getInstance().getCanvasNodes(),
+      CanvasElementRepository.getInstance().getCanvasEdges(),
+      circleRenderer,
+      lineRenderer
+    );
+
+    setTimeout(() => {
+      CanvasElementRepository.getInstance()
+        .getCanvasNodes()
+        .forEach((canvasNode) => {
+          canvasNode.setIsWrong(false);
+        });
+
+      CanvasPainter.getInstance().reloadCanvas(
+        canvases,
+        CanvasElementRepository.getInstance().getCanvasNodes(),
+        CanvasElementRepository.getInstance().getCanvasEdges(),
+        circleRenderer,
+        lineRenderer
+      );
+      EventHandler.Unlock();
+    }, 200);
   })
 );

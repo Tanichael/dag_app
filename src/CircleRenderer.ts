@@ -22,9 +22,19 @@ export class CircleRenderer {
     const x = node.getPosition()[0];
     const y = node.getPosition()[1];
 
-    const color = node.getIsSelected() ? "skyblue" : "white";
-    this._ctxCircle.fillStyle = color;
-    this._ctxCircle.strokeStyle = "red"; // 塗りつぶしは暗めの色
+    let fillColor = "white";
+    if (node.getIsClear() === true) {
+      fillColor = "aquamarine";
+    } else if (node.getIsWrong() === true) {
+      fillColor = "red";
+    } else if (node.getIsSelected() === true) {
+      fillColor = "skyblue";
+    } else {
+      fillColor = "white";
+    }
+    this._ctxCircle.fillStyle = fillColor;
+    const styleColor = node.getIsClear() ? "skyblue" : "red";
+    this._ctxCircle.strokeStyle = styleColor; // 塗りつぶしは暗めの色
     this._ctxCircle.lineWidth = 1; // 線の幅は5px
 
     /* 円の描画 */

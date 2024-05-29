@@ -7,10 +7,12 @@ export class GameLogicUsecase {
 
   _selectedList: CanvasNode[];
   ClearSubject: Subject<boolean>;
+  WrongSubject: Subject<boolean>;
 
   private constructor() {
     this._selectedList = [];
     this.ClearSubject = new Subject<boolean>();
+    this.WrongSubject = new Subject<boolean>();
   }
 
   static getInstance() {
@@ -43,19 +45,25 @@ export class GameLogicUsecase {
 
     if (isClear) {
       console.log("Good Job!");
+      this._selectedList.push(canvasNode);
       this._selectedList.forEach((canvasNode) => {
-        canvasNode.setSelected(false);
+        canvasNode.setIsSelected(false);
+        canvasNode.setIsClaer(true);
       });
       this._selectedList = [];
       this.ClearSubject.onNext(true);
     } else if (isOk) {
-      canvasNode.setSelected(true);
+      canvasNode.setIsSelected(true);
       this._selectedList.push(canvasNode);
     } else {
+      //間違っていた時の処理
+      this._selectedList.push(canvasNode);
       this._selectedList.forEach((canvasNode) => {
-        canvasNode.setSelected(false);
+        canvasNode.setIsSelected(false);
+        canvasNode.setIsWrong(true);
       });
       this._selectedList = [];
+      this.WrongSubject.onNext(true);
     }
   }
 }
